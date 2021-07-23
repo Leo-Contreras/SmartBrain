@@ -39,30 +39,42 @@ const particleOptions = {
         super();
         this.state = {
           input : '',
-          imageUrl : ''
+          imageUrl : '',
+          box : {},
         }
+      }
+
+      calculateFaceLocation = (response) => {
+        
+         const clarifaiFace = response.outputs[0].data.regions[0].region_info.bounding_box;
+         const imagen = document.getElementById('inputImage');
+         const ancho = Number(imagen.clientWidth);
+         const height = Number(imagen.clientHeight);
+         //const alto = Number(2);
+         console.log(ancho, height);
+    
       }
 
       onInputChange = (event) => {
          this.setState({input :event.target.value});
         }
       
-      onButtonSubmit = () => {
-        this.setState({ imageUrl: this.state.input });
-        app.models
-        .predict(FACE_DETECT_MODEL, this.state.input).then(
-          function (response) {
-            // response data fetch from FACE_DETECT_MODEL 
-           
-            console.log(
-              response.outputs[0].data.regions[0].region_info.bounding_box
-            );
-          },
-          function (err) {
-            // there was an error
-          }
-        );
-      };
+        onButtonSubmit = () => {
+          this.setState({ imageUrl: this.state.input });
+          app.models
+          .predict(FACE_DETECT_MODEL, this.state.input).then(
+            (response) => {
+              // response data fetch from FACE_DETECT_MODEL 
+              console.log("1");
+              this.calculateFaceLocation(response);
+              
+
+            },
+            function (err) {
+              // there was an error
+            }
+          );
+        }
       
    
       render() {
@@ -70,7 +82,7 @@ const particleOptions = {
         <div className="App"> 
         <Particles className ='particles' params={particleOptions} />
           <Navigation />
-          <Logo />
+           <Logo /> 
           <Rank />
           <ImageLinkForm 
            onInputChange = {this.onInputChange}
