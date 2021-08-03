@@ -48,11 +48,23 @@ const particleOptions = {
         
          const clarifaiFace = response.outputs[0].data.regions[0].region_info.bounding_box;
          const imagen = document.getElementById('inputImage');
-         const ancho = Number(imagen.clientWidth);
-         const height = Number(imagen.clientHeight);
-         //const alto = Number(2);
-         console.log(ancho, height);
-    
+         const width = Number(imagen.width);
+         const height = Number(imagen.height);
+         console.log(width,height);
+         console.log(clarifaiFace);
+         return {
+          leftCol: clarifaiFace.left_col * width,
+          topRow: clarifaiFace.top_row * height,
+          rightCol: width - (clarifaiFace.right_col * width),
+          bottomRow: height - (clarifaiFace.bottom_row * height)
+         }
+         
+        
+      }
+
+      displayFaceBox = (box) => {
+        console.log(box);
+        this.setState({box: box});
       }
 
       onInputChange = (event) => {
@@ -65,8 +77,7 @@ const particleOptions = {
           .predict(FACE_DETECT_MODEL, this.state.input).then(
             (response) => {
               // response data fetch from FACE_DETECT_MODEL 
-              console.log("1");
-              this.calculateFaceLocation(response);
+              this.displayFaceBox(this.calculateFaceLocation(response));
               
 
             },
@@ -88,7 +99,7 @@ const particleOptions = {
            onInputChange = {this.onInputChange}
            onButtonSubmit = {this.onButtonSubmit}
            /> 
-          <FaceRecognition imageUrl ={this.state.imageUrl}/>
+          <FaceRecognition  imageUrl ={this.state.imageUrl} box={this.state.box}/>
         
         </div>
       );
