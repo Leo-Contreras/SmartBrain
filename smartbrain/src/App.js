@@ -9,6 +9,7 @@ import SingIn from './components/SingIn/SingIn';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import Register from './components/Register/Register';
 
+
 import './App.css';
 
 // You need to add your own API key here from Clarifai.
@@ -47,6 +48,7 @@ const particleOptions = {
           isSignedIn : false ,
         }
       }
+
 
       calculateFaceLocation = (response) => {
         
