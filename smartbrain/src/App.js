@@ -46,9 +46,26 @@ const particleOptions = {
           box : {},
           route : 'signin',
           isSignedIn : false ,
+          user: {
+
+            id:"",
+            name:"",
+            email: "",
+            entries: 0,
+            joined: ''
+          }
         }
       }
 
+      loadUser = (data) => {
+        this.setState({data: {
+          id: data.id,
+          name: data.name,
+          email: data.name,
+          entries: data.entries,
+          joined: data.joined
+        }})
+      }
 
       calculateFaceLocation = (response) => {
         
@@ -124,7 +141,7 @@ const particleOptions = {
           (
             route === 'signin'
             ?<SingIn  onRoutechange={this.onRoutechange}/>
-            :<Register onRoutechange={this.onRoutechange}/>
+            :<Register loadUser ={this.loadUser} onRoutechange={this.onRoutechange}/>
 
           )
 
