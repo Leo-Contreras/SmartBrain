@@ -31,8 +31,9 @@ class SingIn extends  React.Component {
             })
         })
         .then(respone => respone.json())
-        .then(data => {
-            if(data === 'SUCCESS')
+        .then(user => {
+            if(user.id)
+            this.props.loadUser(user);
             this.props.onRoutechange('home');
         })
     }
